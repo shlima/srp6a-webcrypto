@@ -22,22 +22,29 @@ import {BigInt2Uint8Array, BigIntFromUint8Array, SecureRandom} from "./util"
 export class Client {
     private readonly e: Engine
     private readonly password: string
-    private readonly s: Uint8Array
     public readonly username: string
+    private s: Uint8Array
 
     // @test
     public _a: Uint8Array | null
 
-    constructor(username: string, password: string, s: Uint8Array, params: Params) {
+    constructor(username: string, password: string, params: Params) {
         this.e = new Engine(params)
         this.username = username
         this.password = password
-        this.s = s
+        this.s = new Uint8Array(0)
 
         // @test
         this._a = null
     }
 
+    seed(s: Uint8Array) {
+        this.s = s
+    }
+
+    get salt(): Uint8Array {
+        return this.s
+    }
 
     // The verifier (v) is computed based on the salt (s), user name (I),
     // password (P), and group parameters (N, g).  The computation uses the

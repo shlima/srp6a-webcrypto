@@ -23,18 +23,27 @@ All internal operations are made with byte sequence
 bytes, so it's up to you how to encode the communication 
 between client and server (protobuf or HEX representation with JSON).
 
+### Registration flow
+
 ```js
 import {Client, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
 
 const client = new Client("login", "password", RFC5054b1024Sha1)
 
-// == Registration flow
 client.seed(client.randomSalt())
 const verifier = await client.verifier()
 const identifier = client.username
+const salt = client.salt
 // send identifier, verifier and salt to the server
+```
 
-// == Login flow
+### Login flow
+
+```js
+import {Client, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
+
+const client = new Client("login", "password", RFC5054b1024Sha1)
+
 // 1) send user identifier to the server
 // 2) get a salt and server public key from server response
 const {salt, serverPublickKey} = await fetch(`?username=${identifier}`)

@@ -43,11 +43,14 @@ B0DC82BA BCF30674 AE450C02 87745E79 90A3381F 63B387AA F271A10D
 C346D7E4 74B29EDE 8A469FFE CA686E5A`)
 
     it('works ro client', async () => {
-        const client = new Client(I, P, s, param)
+        const client = new Client(I, P, param)
+        client.seed(s)
         client._a = a
 
-        const challenge = await client.setServerPublicKey(B)
+        expect(client.username).toEqual(I)
+        expect(client.salt).toEqual(s)
 
+        const challenge = await client.setServerPublicKey(B)
         expect(await client.verifier()).toEqual(v)
 
         expect(challenge.a).toEqual(a)
