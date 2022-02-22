@@ -1,4 +1,4 @@
-export {ClientChallenge, Client} from './client';
+export {ClientChallenge, SrpClient} from './client';
 export {
     RFC5054b1024Sha1, RFC5054b1024Sha256,
     RFC5054b1536Sha1, RFC5054b1536Sha256,

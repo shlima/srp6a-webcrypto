@@ -2,10 +2,12 @@ import {BigInteger} from "jsbn";
 
 let crypt: Crypto;
 
-if (typeof window === 'undefined') {
-    crypt = require('crypto')
-} else {
+if (typeof window !== 'undefined') {
     crypt = window.crypto
+} else if (typeof WorkerGlobalScope !== 'undefined' ) {
+    crypt = require("crypto")
+} else {
+    crypt = require("crypto")
 }
 
 export function BigIntFromUint8Array(input: Uint8Array): BigInteger {

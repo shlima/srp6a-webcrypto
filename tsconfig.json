@@ -8,7 +8,8 @@
         "outDir": "./dist",
         "lib": [
           "es2017",
-          "dom"
+          "dom",
+          "webworker"
         ],
         "declaration": true,
         "moduleResolution": "node",

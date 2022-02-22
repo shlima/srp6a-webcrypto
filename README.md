@@ -26,11 +26,11 @@ between client and server (protobuf or HEX representation with JSON).
 ### Registration flow
 
 ```js
-import {Client, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
+import {SrpClient, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
 
-const client = new Client("login", "password", RFC5054b1024Sha1)
+const client = new SrpClient("login", "password", RFC5054b1024Sha1)
 
-client.seed(client.randomSalt())
+client.seed(await client.randomSalt())
 const verifier = await client.verifier()
 const identifier = client.username
 const salt = client.salt
@@ -40,9 +40,9 @@ const salt = client.salt
 ### Login flow
 
 ```js
-import {Client, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
+import {SrpClient, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
 
-const client = new Client("login", "password", RFC5054b1024Sha1)
+const client = new SrpClient("login", "password", RFC5054b1024Sha1)
 
 // 1) send user identifier to the server
 // 2) get a salt and server public key from server response

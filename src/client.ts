@@ -19,7 +19,7 @@ import {BigInt2Uint8Array, BigIntFromUint8Array, SecureRandom} from "./util"
 // k: SRP-6 multiplier (k = H(N, g) in SRP-6a, k = 3 for legacy SRP-6)
 // S: pre-master secret
 // K = SHA_Interleave(S) shared secret key
-export class Client {
+export class SrpClient {
     private readonly e: Engine
     private readonly password: string
     public readonly username: string
@@ -36,6 +36,10 @@ export class Client {
 
         // @test
         this._a = null
+    }
+
+    async randomSalt(): Promise<Uint8Array> {
+        return await SecureRandom(this.e.N_SIZE)
     }
 
     seed(s: Uint8Array) {

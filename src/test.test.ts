@@ -1,6 +1,6 @@
-import {Uint8ArrayFromHex} from "./util";
-import {RFC5054b1024Sha1} from "./rfc5054";
-import {Client} from "./client";
+import {Uint8ArrayFromHex} from "./util"
+import {RFC5054b1024Sha1} from "./rfc5054"
+import {SrpClient} from "./client"
 
 // @refs https://datatracker.ietf.org/doc/html/rfc5054#appendix-B
 describe('SRP Test Vectors', () => {
@@ -43,7 +43,7 @@ B0DC82BA BCF30674 AE450C02 87745E79 90A3381F 63B387AA F271A10D
 C346D7E4 74B29EDE 8A469FFE CA686E5A`)
 
     it('works ro client', async () => {
-        const client = new Client(I, P, param)
+        const client = new SrpClient(I, P, param)
         client.seed(s)
         client._a = a
 
