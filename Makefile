@@ -1,5 +1,5 @@
 build:
-	rm -rf dist
+	rm -rf dist/*
 	yarn run build
 
 test:

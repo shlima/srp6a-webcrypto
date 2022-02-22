@@ -21,7 +21,7 @@ export function BigInt2Uint8Array(input: BigInteger): Uint8Array {
     let array = input.toByteArray()
     // Java, GO anf etc. BigInteger math will trim leading zeros so we do likewise
     // @refs https://github.com/simbo1905/thinbus-srp-npm/blob/master/client.js#L111
-    if (array[0] == 0) {
+    while (array[0] === 0) {
         array = array.slice(1, array.length)
     }
     return new Uint8Array(array)
