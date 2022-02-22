@@ -5,7 +5,7 @@ let crypt: Crypto;
 if (typeof window !== 'undefined') {
     crypt = window.crypto
 } else if (typeof WorkerGlobalScope !== 'undefined' ) {
-    crypt = require("crypto")
+    crypt = global.crypto
 } else {
     crypt = require("crypto")
 }
