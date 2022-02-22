@@ -21,9 +21,9 @@ import {BigInt2Uint8Array, BigIntFromUint8Array, SecureRandom} from "./util"
 // K = SHA_Interleave(S) shared secret key
 export class Client {
     private readonly e: Engine
-    private readonly username: string
     private readonly password: string
     private readonly s: Uint8Array
+    public readonly username: string
 
     // @test
     public _a: Uint8Array | null

@@ -4,3 +4,7 @@ build:
 
 test:
 	yarn run test
+
+publish: build
+publish:
+	npm publish --access public
