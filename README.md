@@ -56,6 +56,7 @@ const challenge = await client.setServerPublicKey(serverPublickKey)
 // 3) send client's public key and proof to the server
 const proof = challenge.proof
 const publicKey = challenge.publicKey
+const {serverProof} = await fetch(`?proof=${proof}&publicKey=${publicKey}`)
 
 // 4) get server proof and validate it
 client.isProofValid(serverProof)
