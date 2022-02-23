@@ -9,7 +9,7 @@ It uses built-in crypto primitives from Web crypto
 API in node and in a browser (cryptographically strong 
 random number generator and hash functions).
 
-This client is used with [golang](https://github.com/oka-is/srp6a-go) 
+This client is used with [golang](https://github.com/oka-is/srp6ago) 
 SRP6a server implementation.
 
 
