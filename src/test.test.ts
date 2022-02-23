@@ -4,7 +4,6 @@ import {SrpClient} from "./client"
 
 // @refs https://datatracker.ietf.org/doc/html/rfc5054#appendix-B
 describe('SRP Test Vectors', () => {
-    const param = RFC5054b1024Sha1
     const I = "alice"
     const P = "password123"
     const s = Uint8ArrayFromHex("BEB25379 D1A8581E B5A72767 3A2441EE")
@@ -43,7 +42,7 @@ B0DC82BA BCF30674 AE450C02 87745E79 90A3381F 63B387AA F271A10D
 C346D7E4 74B29EDE 8A469FFE CA686E5A`)
 
     it('works ro client', async () => {
-        const client = new SrpClient(I, P, param)
+        const client = new SrpClient(I, P, RFC5054b1024Sha1)
         client.seed(s)
         client._a = a
 

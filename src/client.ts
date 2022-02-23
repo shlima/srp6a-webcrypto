@@ -88,8 +88,8 @@ export class SrpClient {
     // "M'" -- a hash of all the data it has and it received from the server. To
     // validate that the server also has the same value, it requires the server to send
     // its own proof. In the SRP paper [1], the authors use:
-    //     M = H(H(N) xor H(g), H(I), s, A, B, S) => from server
-    //     M' = H(A, B, S) => from client
+    //     M2 = SHA(PAD(A) | M1 | PAD(S)) => from server
+    //     M1 = SHA(PAD(A) | PAD(B) | PAD(S)) => from client
     async setServerPublicKey(B: Uint8Array): Promise<ClientChallenge> {
         const a = this._a ? BigIntFromUint8Array(this._a) : BigIntFromUint8Array(await SecureRandom(this.e.N_SIZE))
         const A = this.e.g.modPow(a, this.e.N)

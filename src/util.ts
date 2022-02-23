@@ -38,7 +38,7 @@ export function Uint8Array2Hex(input: Uint8Array): string {
 // Uint8ArrayFromHex parses HEX to binary array.
 // allows grouping by 4 bytes and new lines
 export function Uint8ArrayFromHex(input: string): Uint8Array {
-    const matched = input.match(/[A-F0-9]{2}/g)
+    const matched = input.match(/[A-Fa-f0-9]{2}/g)
     if (matched == null) {
         return new Uint8Array(0)
     }
