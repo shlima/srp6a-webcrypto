@@ -9,6 +9,9 @@ It uses built-in crypto primitives from Web crypto
 API in node and in a browser (cryptographically strong 
 random number generator and hash functions).
 
+This client is used with [golang](https://github.com/oka-is/srp6a-go) 
+SRP6a server implementation.
+
 
 ## Installation
 
@@ -53,6 +56,11 @@ const challenge = await client.setServerPublicKey(serverPublickKey)
 // 3) send client's public key and proof to the server
 const proof = challenge.proof
 const publicKey = challenge.publicKey
+
+// 4) get server proof and validate it
+client.isProofValid(serverProof)
+// 5) now you have identical session key with server
+client.secretKey()
 ```
 
 ## SRP Group Parameters

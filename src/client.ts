@@ -1,6 +1,6 @@
 import {Params} from "./rfc5054"
 import {Engine} from "./engine"
-import {BigInt2Uint8Array, BigIntFromUint8Array, SecureRandom} from "./util"
+import {BigInt2Uint8Array, BigIntFromUint8Array, SecureEqual, SecureRandom} from "./util"
 
 // @refs RFC-5054 https://datatracker.ietf.org/doc/html/rfc5054
 // @refs RFC-2945 https://datatracker.ietf.org/doc/html/rfc2945
@@ -19,6 +19,9 @@ import {BigInt2Uint8Array, BigIntFromUint8Array, SecureRandom} from "./util"
 // k: SRP-6 multiplier (k = H(N, g) in SRP-6a, k = 3 for legacy SRP-6)
 // S: pre-master secret
 // K = SHA_Interleave(S) shared secret key
+//
+// m1: client proof H(PAD(A) | PAD(B) | PAD(S))
+// m2: server proof H(PAD(A) | M1 | PAD(S))
 export class SrpClient {
     private readonly e: Engine
     private readonly password: string
@@ -103,7 +106,9 @@ export class SrpClient {
         const S = BigIntFromUint8Array(B).subtract(_tmp).modPow(_exp, this.e.N)
 
         // H(A, M, K)
-        const M = await this.e.HASH(BigInt2Uint8Array(A), B, BigInt2Uint8Array(S))
+        const m1 = await this.e.HASH(this.e.PAD(BigInt2Uint8Array(A)), this.e.PAD(B), this.e.PAD(BigInt2Uint8Array(S)))
+        // H(PAD(A) | M1 | PAD(S))
+        const m2 = await this.e.HASH(this.e.PAD(BigInt2Uint8Array(A)), m1, this.e.PAD(BigInt2Uint8Array(S)))
 
         const ch = new ClientChallenge()
         ch.k = BigInt2Uint8Array(k)
@@ -112,7 +117,8 @@ export class SrpClient {
         ch.A = BigInt2Uint8Array(A)
         ch.u = BigInt2Uint8Array(u)
         ch.S = BigInt2Uint8Array(S)
-        ch.M = M
+        ch.m1 = m1
+        ch.m2 = m2
 
         // @refs https://go.dev/play/p/21hj3bfDs8U
         return ch
@@ -126,7 +132,8 @@ export class ClientChallenge {
     public A: Uint8Array
     public u: Uint8Array
     public S: Uint8Array
-    public M: Uint8Array
+    public m1: Uint8Array
+    public m2: Uint8Array
 
     constructor() {
         this.k = new Uint8Array(0)
@@ -135,7 +142,8 @@ export class ClientChallenge {
         this.A = new Uint8Array(0)
         this.u = new Uint8Array(0)
         this.S = new Uint8Array(0)
-        this.M = new Uint8Array(0)
+        this.m1 = new Uint8Array(0)
+        this.m2 = new Uint8Array(0)
     }
 
     get secretKey(): Uint8Array {
@@ -147,7 +155,10 @@ export class ClientChallenge {
     }
 
     get proof(): Uint8Array {
-        return this.M
+        return this.m1
+    }
+
+    isProofValid(m2: Uint8Array): boolean {
+        return SecureEqual(this.m2, m2)
     }
 }
-

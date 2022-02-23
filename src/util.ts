@@ -4,7 +4,7 @@ let crypt: Crypto;
 
 if (typeof window !== 'undefined') {
     crypt = window.crypto
-} else if (typeof WorkerGlobalScope !== 'undefined' ) {
+} else if (typeof WorkerGlobalScope !== 'undefined') {
     crypt = global.crypto
 } else {
     crypt = require("crypto")
@@ -44,6 +44,22 @@ export function Uint8ArrayFromHex(input: string): Uint8Array {
     }
 
     return new Uint8Array(matched.map(byte => parseInt(byte, 16)))
+}
+
+export function SecureEqual(uno: Uint8Array, dos: Uint8Array): boolean {
+    if (uno.length != dos.length) {
+        return false
+    }
+
+    let same = true
+
+    for (let i = 0; i < uno.length; i++) {
+        const u = uno[i]
+        const d = dos[i]
+        if (u !== d) same = false
+    }
+
+    return same
 }
 
 export async function SecureRandom(length: number): Promise<Uint8Array> {

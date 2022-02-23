@@ -41,6 +41,9 @@ B0DC82BA BCF30674 AE450C02 87745E79 90A3381F 63B387AA F271A10D
 3499B200 210DCC1F 10EB3394 3CD67FC8 8A2F39A4 BE5BEC4E C0A3212D
 C346D7E4 74B29EDE 8A469FFE CA686E5A`)
 
+    const m1 = Uint8ArrayFromHex("B46A7838 46B7E569 FF8F9B44 AB8D88ED EB085A65")
+    const m2 = Uint8ArrayFromHex("0B0A6AD3 024E79B5 CAD04042 ABB3A3F5 92D20C17")
+
     it('works ro client', async () => {
         const client = new SrpClient(I, P, RFC5054b1024Sha1)
         client.seed(s)
@@ -60,5 +63,9 @@ C346D7E4 74B29EDE 8A469FFE CA686E5A`)
 
         expect(challenge.secretKey).toEqual(S)
         expect(challenge.publicKey).toEqual(A)
+        expect(challenge.proof).toEqual(m1)
+
+        expect(challenge.isProofValid(m2)).toEqual(true)
+        expect(challenge.isProofValid(new Uint8Array([1, 2, 3]))).toEqual(false)
     })
 })
