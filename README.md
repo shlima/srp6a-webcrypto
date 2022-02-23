@@ -51,6 +51,7 @@ const client = new SrpClient("login", "password", RFC5054b1024Sha1)
 // 2) get a salt and server public key from server response
 const {salt, serverPublickKey} = await fetch(`?username=${identifier}`)
 client.seed(salt)
+
 const challenge = await client.setServerPublicKey(serverPublickKey)
 
 // 3) send client's public key and proof to the server
@@ -59,9 +60,9 @@ const publicKey = challenge.publicKey
 const {serverProof} = await fetch(`?proof=${proof}&publicKey=${publicKey}`)
 
 // 4) get server proof and validate it
-client.isProofValid(serverProof)
+challenge.isProofValid(serverProof)
 // 5) now you have identical session key with server
-client.secretKey()
+challenge.secretKey()
 ```
 
 ## SRP Group Parameters
