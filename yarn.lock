@@ -752,6 +752,15 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@wault-pw/srp6a-webcrypto@^1.0.0":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@wault-pw/srp6a-webcrypto/-/srp6a-webcrypto-1.0.6.tgz#3ed4f4eed7e849babb3a4a05f5ea7eb6c8d4eb47"
+  integrity sha512-TONSPWyjgE1PgKBTs+23X9AZBbuM2C/lVGS8x7iXVXJxoRyvxsYjE/ZMc6cNGcgOvlwiWtL5hn9vGteGz6jLLw==
+  dependencies:
+    "@types/jsbn" "1.2.30"
+    "@wault-pw/srp6a-webcrypto" "^1.0.0"
+    jsbn "^1.1.0"
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"

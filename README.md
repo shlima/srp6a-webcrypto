@@ -1,6 +1,6 @@
 # srp6a-webcrypto
 
-[![Test](https://github.com/oka-is/srp6a-webcrypto/actions/workflows/test.yml/badge.svg)](https://github.com/oka-is/srp6a-webcrypto/actions/workflows/test.yml)
+[![Test](https://github.com/wault-pw/srp6a-webcrypto/actions/workflows/test.yml/badge.svg)](https://github.com/oka-is/srp6a-webcrypto/actions/workflows/test.yml)
 
 This is tiny Javascript SRP6a implementation
 fully complies with the RFC-5054/RFC-2945.
@@ -9,14 +9,14 @@ It uses built-in crypto primitives from Web crypto
 API in node and in a browser (cryptographically strong 
 random number generator and hash functions).
 
-This client is used with [golang](https://github.com/oka-is/srp6ago) 
+This client is used with [golang](https://github.com/wault-pw/srp6ago) 
 SRP6a server implementation.
 
 
 ## Installation
 
 ```bash
-yarn add @oka-is/srp6a-webcrypto
+yarn add @wault-pw/srp6a-webcrypto
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ between client and server (protobuf or HEX representation with JSON).
 ### Registration flow
 
 ```js
-import {SrpClient, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
+import {SrpClient, RFC5054b1024Sha1} from "@wault-pw/srp6a-webcrypto"
 
 const client = new SrpClient("login", "password", RFC5054b1024Sha1)
 
@@ -43,7 +43,7 @@ const salt = client.salt
 ### Login flow
 
 ```js
-import {SrpClient, RFC5054b1024Sha1} from "@oka-is/srp6a-webcrypto"
+import {SrpClient, RFC5054b1024Sha1} from "@wault-pw/srp6a-webcrypto"
 
 const client = new SrpClient("login", "password", RFC5054b1024Sha1)
 
@@ -79,7 +79,7 @@ import {
   RFC5054b4096Sha1,
   RFC5054b6144Sha1,
   RFC5054b8192Sha1,
-} from "@oka-is/srp6a-webcrypto"
+} from "@wault-pw/srp6a-webcrypto"
 
 // RFC-5054 complicated set,
 // with non-standart hash function SHA-256
@@ -91,5 +91,5 @@ import {
   RFC5054b1536Sha256,
   RFC5054b2048Sha256,
   RFC5054b3072Sha256
-} from "@oka-is/srp6a-webcrypto"
+} from "@wault-pw/srp6a-webcrypto"
 ```
