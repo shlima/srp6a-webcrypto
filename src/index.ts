@@ -1,4 +1,5 @@
-export {ClientChallenge, SrpClient} from './client';
+export {ClientChallenge, SrpClient} from "./client"
+export {ErrAbort} from "./errors"
 export {
     RFC5054b1024Sha1, RFC5054b1024Sha256,
     RFC5054b1536Sha1, RFC5054b1536Sha256,
@@ -7,4 +8,4 @@ export {
     RFC5054b4096Sha1, RFC5054b4096Sha256,
     RFC5054b6144Sha1, RFC5054b6144Sha256,
     RFC5054b8192Sha1, RFC5054b8192Sha256
-} from './rfc5054';
+} from "./rfc5054"

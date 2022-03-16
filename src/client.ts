@@ -1,6 +1,7 @@
 import {Params} from "./rfc5054"
 import {Engine} from "./engine"
 import {BigInt2Uint8Array, BigIntFromUint8Array, SecureEqual, SecureRandom} from "./util"
+import {ErrAbort} from "./errors";
 
 // @refs RFC-5054 https://datatracker.ietf.org/doc/html/rfc5054
 // @refs RFC-2945 https://datatracker.ietf.org/doc/html/rfc2945
@@ -94,6 +95,11 @@ export class SrpClient {
     //     M2 = SHA(PAD(A) | M1 | PAD(S)) => from server
     //     M1 = SHA(PAD(A) | PAD(B) | PAD(S)) => from client
     async setServerPublicKey(B: Uint8Array): Promise<ClientChallenge> {
+        // The client MUST abort authentication if B % N is zero.
+        if (this.e.isModZero(BigIntFromUint8Array(B), this.e.N)) {
+            throw ErrAbort
+        }
+
         const a = this._a ? BigIntFromUint8Array(this._a) : BigIntFromUint8Array(await SecureRandom(this.e.N_SIZE))
         const A = this.e.g.modPow(a, this.e.N)
         const k = await this.e.k()

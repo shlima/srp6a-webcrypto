@@ -21,6 +21,10 @@ export class Engine {
         return BigIntFromUint8Array(await this.HASH(BigInt2Uint8Array(this.N), this.PAD(BigInt2Uint8Array(this.g))))
     }
 
+    isModZero(a: BigInteger, b: BigInteger): boolean {
+        return a.mod(b).signum() == 0
+    }
+
     async HASH(...inputs: (Uint8Array)[]): Promise<Uint8Array> {
         return await Hash(this.hash, ...inputs)
     }
