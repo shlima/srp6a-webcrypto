@@ -1,4 +1,4 @@
-import {BigInteger} from "jsbn";
+import bigInt from "big-integer"
 
 let crypt: Crypto;
 
@@ -10,22 +10,29 @@ if (typeof window !== 'undefined') {
     crypt = require("crypto")
 }
 
-export function BigIntFromUint8Array(input: Uint8Array): BigInteger {
-    return new BigInteger(Uint8Array2Hex(input), 16)
+export function BigIntFromUint8Array(input: Uint8Array): bigInt.BigInteger {
+    return bigInt.fromArray(Array.from(input), 256)
 }
 
-export function BigIntFromInt(input: number): BigInteger {
-    return new BigInteger(input.toString(), 10)
+export function BigIntFromInt(input: number): bigInt.BigInteger {
+    return bigInt(input)
+}
+
+// @refs https://github.com/peterolson/BigInteger.js/issues/46
+export function EuclideanModPow(a: bigInt.BigInteger, b: bigInt.BigInteger, m: bigInt.BigInteger): bigInt.BigInteger {
+    const res = bigInt(a).modPow(b, m)
+    return res.isNegative() ? res.add(m) : res
 }
 
 // convert to big-endian byte array
-export function BigInt2Uint8Array(input: BigInteger): Uint8Array {
-    let array = input.toByteArray()
-    // Java, GO anf etc. BigInteger math will trim leading zeros so we do likewise
-    // @refs https://github.com/simbo1905/thinbus-srp-npm/blob/master/client.js#L111
-    while (array[0] === 0) {
-        array = array.slice(1, array.length)
-    }
+// Java, GO anf etc. BigInteger math will trim leading zeros so we do likewise
+// @refs https://github.com/simbo1905/thinbus-srp-npm/blob/master/client.js#L111
+// while (array[0] === 0) {
+//     array = array.slice(1, array.length)
+// }
+// the code above was used with "jsbn"
+export function BigInt2Uint8Array(input: bigInt.BigInteger): Uint8Array {
+    let array = input.toArray(256).value
     return new Uint8Array(array)
 }
 
@@ -38,7 +45,7 @@ export function Uint8Array2Hex(input: Uint8Array): string {
 // Uint8ArrayFromHex parses HEX to binary array.
 // allows grouping by 4 bytes and new lines
 export function Uint8ArrayFromHex(input: string): Uint8Array {
-    const matched = input.match(/[A-Fa-f0-9]{2}/g)
+    const matched = input.match(/[A-Fa-f\d]{2}/g)
     if (matched == null) {
         return new Uint8Array(0)
     }

@@ -1,14 +1,14 @@
-import {BigInteger} from "jsbn"
+import bigInt from "big-integer"
 import {Params} from "./rfc5054"
 import {BigInt2Uint8Array, BigIntFromInt, BigIntFromUint8Array, Hash} from "./util"
 
 export class Engine {
-    readonly N: BigInteger;
-    readonly g: BigInteger;
+    readonly N: bigInt.BigInteger;
+    readonly g: bigInt.BigInteger;
     readonly hash: string;
 
     public get N_SIZE(): number {
-        return this.N.bitLength() >> 3
+        return this.N.bitLength().toJSNumber() >> 3
     }
 
     constructor(params: Params) {
@@ -17,12 +17,12 @@ export class Engine {
         this.hash = params.hash
     }
 
-    async k(): Promise<BigInteger> {
+    async k(): Promise<bigInt.BigInteger> {
         return BigIntFromUint8Array(await this.HASH(BigInt2Uint8Array(this.N), this.PAD(BigInt2Uint8Array(this.g))))
     }
 
-    isModZero(a: BigInteger, b: BigInteger): boolean {
-        return a.mod(b).signum() == 0
+    isModZero(a: bigInt.BigInteger, b: bigInt.BigInteger): boolean {
+        return a.mod(b).isZero()
     }
 
     async HASH(...inputs: (Uint8Array)[]): Promise<Uint8Array> {

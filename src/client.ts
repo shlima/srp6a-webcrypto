@@ -1,6 +1,6 @@
 import {Params} from "./rfc5054"
 import {Engine} from "./engine"
-import {BigInt2Uint8Array, BigIntFromUint8Array, SecureEqual, SecureRandom} from "./util"
+import {BigInt2Uint8Array, BigIntFromUint8Array, EuclideanModPow, SecureEqual, SecureRandom} from "./util"
 import {ErrAbort} from "./errors";
 
 // @refs RFC-5054 https://datatracker.ietf.org/doc/html/rfc5054
@@ -63,7 +63,7 @@ export class SrpClient {
     async verifier(): Promise<Uint8Array> {
         const hashed = await this.e.HASHED_CRED(this.username, this.password)
         const x = BigIntFromUint8Array(await this.e.HASH(this.s, hashed))
-        const v = this.e.g.modPow(x, this.e.N)
+        const v = EuclideanModPow(this.e.g, x, this.e.N)
         return BigInt2Uint8Array(v)
     }
 
@@ -101,15 +101,15 @@ export class SrpClient {
         }
 
         const a = this._a ? BigIntFromUint8Array(this._a) : BigIntFromUint8Array(await SecureRandom(this.e.N_SIZE))
-        const A = this.e.g.modPow(a, this.e.N)
+        const A = EuclideanModPow(this.e.g, a, this.e.N)
         const k = await this.e.k()
         const u = BigIntFromUint8Array(await this.e.HASH(this.e.PAD(BigInt2Uint8Array(A)), this.e.PAD(B)))
         const x = BigIntFromUint8Array(await this.e.HASH(this.s, await this.e.HASHED_CRED(this.username, this.password)))
 
         // (B - (k * g^x)) ^ (a + (u * x)) % N
         const _exp = u.multiply(x).add(a);
-        const _tmp = this.e.g.modPow(x, this.e.N).multiply(k)
-        const S = BigIntFromUint8Array(B).subtract(_tmp).modPow(_exp, this.e.N)
+        const _tmp = EuclideanModPow(this.e.g, x, this.e.N).multiply(k)
+        const S = EuclideanModPow(BigIntFromUint8Array(B).subtract(_tmp), _exp, this.e.N)
 
         // H(A, M, K)
         const m1 = await this.e.HASH(this.e.PAD(BigInt2Uint8Array(A)), this.e.PAD(B), this.e.PAD(BigInt2Uint8Array(S)))

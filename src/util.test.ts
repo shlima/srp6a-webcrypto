@@ -1,4 +1,4 @@
-import {Hash, Uint8ArrayFromHex} from "./util";
+import {BigInt2Uint8Array, BigIntFromInt, BigIntFromUint8Array, Hash, Uint8ArrayFromHex} from "./util";
 
 describe('Uint8ArrayFromHex', () => {
     const input = `
@@ -31,5 +31,19 @@ describe('Hash', () => {
         expect(await Hash("SHA-256", input1)).toEqual(expected1)
         expect(await Hash("SHA-256", input2)).toEqual(expected2)
         expect(await Hash("SHA-256", input1, input2)).toEqual(expected3)
+    })
+})
+
+describe('BigIntFromUint8Array', () => {
+    it('works', async () => {
+        expect(BigIntFromUint8Array(new Uint8Array([255])).toString()).toEqual("255")
+        expect(BigIntFromUint8Array(new Uint8Array([1,1])).toString()).toEqual("257")
+    })
+})
+
+describe('BigInt2Uint8Array', () => {
+    it('works', async () => {
+        expect(BigInt2Uint8Array(BigIntFromInt(1))).toEqual(new Uint8Array([1]))
+        expect(BigInt2Uint8Array(BigIntFromInt(257))).toEqual(new Uint8Array([1, 1]))
     })
 })
