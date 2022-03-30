@@ -1,5 +1,5 @@
-import {SrpClient} from "./client"
-import {RFC5054b1024Sha1, RFC5054b8192Sha1} from "./rfc5054"
+import {SrpClient} from "@/client"
+import {RFC5054b1024Sha1, RFC5054b8192Sha1} from "@/rfc5054"
 
 describe('SrpClient', () => {
     describe('randomSalt', () => {
@@ -10,8 +10,8 @@ describe('SrpClient', () => {
             const salt1 = await client1.randomSalt()
             const salt2 = await client2.randomSalt()
 
-            expect(salt1).toHaveLength(1024 >> 3)
-            expect(salt2).toHaveLength(8192 >> 3)
+            expect(salt1).to.have.length(1024 >> 3)
+            expect(salt2).to.have.length(8192 >> 3)
         })
 
         it('generates a random', async () => {
@@ -21,7 +21,7 @@ describe('SrpClient', () => {
             const salt1 = await client1.randomSalt()
             const salt2 = await client2.randomSalt()
 
-            expect(salt1).not.toEqual(salt2)
+            expect(salt1).not.to.deep.eq(salt2)
         })
     })
 })

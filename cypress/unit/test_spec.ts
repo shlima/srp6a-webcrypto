@@ -1,6 +1,6 @@
-import {Uint8ArrayFromHex} from "./util"
-import {RFC5054b1024Sha1} from "./rfc5054"
-import {SrpClient} from "./client"
+import {Uint8ArrayFromHex} from "@/util"
+import {RFC5054b1024Sha1} from "@/rfc5054"
+import {SrpClient} from "@/client"
 
 // @refs https://datatracker.ietf.org/doc/html/rfc5054#appendix-B
 describe('SRP Test Vectors', () => {
@@ -49,23 +49,23 @@ C346D7E4 74B29EDE 8A469FFE CA686E5A`)
         client.seed(s)
         client._a = a
 
-        expect(client.username).toEqual(I)
-        expect(client.salt).toEqual(s)
+        expect(client.username).to.deep.eq(I)
+        expect(client.salt).to.deep.eq(s)
 
         const challenge = await client.setServerPublicKey(B)
-        expect(await client.verifier()).toEqual(v)
+        expect(await client.verifier()).to.deep.eq(v)
 
-        expect(challenge.a).toEqual(a)
-        expect(challenge.k).toEqual(k)
-        expect(challenge.A).toEqual(A)
-        expect(challenge.u).toEqual(u)
-        expect(challenge.S).toEqual(S)
+        expect(challenge.a).to.deep.eq(a)
+        expect(challenge.k).to.deep.eq(k)
+        expect(challenge.A).to.deep.eq(A)
+        expect(challenge.u).to.deep.eq(u)
+        expect(challenge.S).to.deep.eq(S)
 
-        expect(challenge.secretKey).toEqual(S)
-        expect(challenge.publicKey).toEqual(A)
-        expect(challenge.proof).toEqual(m1)
+        expect(challenge.secretKey).to.deep.eq(S)
+        expect(challenge.publicKey).to.deep.eq(A)
+        expect(challenge.proof).to.deep.eq(m1)
 
-        expect(challenge.isProofValid(m2)).toEqual(true)
-        expect(challenge.isProofValid(new Uint8Array([1, 2, 3]))).toEqual(false)
+        expect(challenge.isProofValid(m2)).to.eq(true)
+        expect(challenge.isProofValid(new Uint8Array([1, 2, 3]))).to.eq(false)
     })
 })

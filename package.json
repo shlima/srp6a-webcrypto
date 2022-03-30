@@ -1,6 +1,6 @@
 {
   "name": "@wault-pw/srp6a-webcrypto",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -9,14 +9,12 @@
   "author": "Wault OÜ <alex.shilov.by@gmail.com>",
   "license": "AGPL-3.0",
   "scripts": {
-    "test": "jest src/*",
+    "test": "cypress run -C cypress.unit.json",
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/jest": "27.4.1",
     "@types/web": "0.0.59",
-    "jest": "27.5.1",
-    "ts-jest": "27.1.3",
+    "cypress": "^9.5.3",
     "typescript": "4.6.2"
   },
   "dependencies": {

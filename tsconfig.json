@@ -1,26 +1,25 @@
 {
-    "compilerOptions": {
-        "sourceMap": true,
-        "skipLibCheck": true,
-        "target": "es6",
-        "module": "commonJs",
-        "strict": true,
-        "outDir": "./dist",
-        "lib": [
-          "es2017",
-          "dom",
-          "webworker"
-        ],
-        "declaration": true,
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true
-    },
-    "include": [
-        "./src"
+  "compilerOptions": {
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "target": "es6",
+    "module": "commonJs",
+    "strict": true,
+    "outDir": "./dist",
+    "lib": [
+      "es2017",
+      "dom"
     ],
-    "exclude": [
-        "./src/*.test.ts"
-    ]
+    "declaration": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

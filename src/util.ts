@@ -1,15 +1,5 @@
 import bigInt from "big-integer"
 
-let crypt: Crypto;
-
-if (typeof window !== 'undefined') {
-    crypt = window.crypto
-} else if (typeof WorkerGlobalScope !== 'undefined') {
-    crypt = global.crypto
-} else {
-    crypt = require("crypto")
-}
-
 export function BigIntFromUint8Array(input: Uint8Array): bigInt.BigInteger {
     return bigInt.fromArray(Array.from(input), 256)
 }
@@ -71,7 +61,7 @@ export function SecureEqual(uno: Uint8Array, dos: Uint8Array): boolean {
 
 export async function SecureRandom(length: number): Promise<Uint8Array> {
     const out = new Uint8Array(length)
-    await crypt.getRandomValues(out)
+    await crypto.getRandomValues(out)
     return out
 }
 
@@ -82,5 +72,5 @@ export async function Hash(name: string, ...inputs: (Uint8Array)[]): Promise<Uin
         data = new Uint8Array([...data, ...input])
     }
 
-    return new Uint8Array(await crypt.subtle.digest(name, data))
+    return new Uint8Array(await crypto.subtle.digest(name, data))
 }

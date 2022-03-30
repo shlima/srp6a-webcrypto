@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [ push, pull_request ]
 name: Test
 jobs:
   test:
@@ -9,7 +9,20 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.5.0'
+          node-version: '17.8.0'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache node_modules
+        uses: actions/cache@v2.1.4
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install modules
         run: yarn install

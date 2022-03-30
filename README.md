@@ -6,7 +6,7 @@ This is tiny Javascript SRP6a implementation
 fully complies with the RFC-5054/RFC-2945.
 
 It uses built-in crypto primitives from Web crypto 
-API in node and in a browser (cryptographically strong 
+API in a browser (cryptographically strong 
 random number generator and hash functions).
 
 This client is used with [golang](https://github.com/wault-pw/srp6ago) 
